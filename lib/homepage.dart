@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movieflix/movie_detail_screen.dart';
+import 'package:movieflix/movie_item_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,18 +39,16 @@ class _HomePageState extends State<HomePage> {
         child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
             items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.movie_filter_rounded)),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.movie_filter_rounded), label: "Now Playing"),
               BottomNavigationBarItem(
                 icon: Icon(Icons.star_rounded),
+                label: "Top Rated",
               )
             ],
           ),
           tabBuilder: (context, index) {
-            return CupertinoTabView(
-              builder: (context) {
-                return tabs[index];
-              },
-            );
+            return tabs[index];
           },
         ),
       ),
@@ -69,7 +70,6 @@ class MovieFlixTopNavigationBar extends StatefulWidget {
 }
 
 class _MovieFlixTopNavigationBarState extends State<MovieFlixTopNavigationBar> {
-
   @override
   void initState() {
     super.initState();
@@ -80,8 +80,7 @@ class _MovieFlixTopNavigationBarState extends State<MovieFlixTopNavigationBar> {
 
   void handleSearchTextFieldFocusChanges() {
     widget._searchTextFieldFocusNode.addListener(() {
-      setState(() {
-      });
+      setState(() {});
     });
   }
 
@@ -123,7 +122,24 @@ class NowPlayingTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SafeArea(
+      child: Column(
+        children: [
+          MovieItemWidget(
+            imageUrl:
+                "https://image.tmdb.org/t/p/w342/8QtDhh8mnGUEyrJsaeb3kYgDRaA.jpg",
+            title: "title",
+            subtitle: "subtitle",
+            onTap: () {
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => MovieDetailScreen()));
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -132,6 +148,8 @@ class TopRatedTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Center(
+      child: Text('Top Rated Tab'),
+    );
   }
 }

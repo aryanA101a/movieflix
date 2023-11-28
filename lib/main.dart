@@ -11,13 +11,9 @@ class MovieFlix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return const CupertinoApp(
       title: 'MovieFlix',
-      theme: CupertinoThemeData(
-          // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          // useMaterial3: true,
-          ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
