@@ -1,23 +1,42 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:movieflix/constants.dart';
 import 'package:movieflix/domain/entities/movieItemEntity.dart';
 import 'package:movieflix/domain/repositories/movie_repository.dart';
 
 class HomePageViewModel extends ChangeNotifier {
   HomePageViewModel(this.movieRepository) {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchNowPlayingMoviesPage(pageKey: pageKey);
+    init();
+  }
+  final MovieRepository movieRepository;
+
+  void init() {
+    _nowPlayingTabPagingController.addPageRequestListener((pageKey) {
+      _fetchMovieItemsPage(
+          pageKey: pageKey,
+          movieItemType: MovieItemType.nowPlaying,
+          pagingController: _nowPlayingTabPagingController);
+    });
+    _topRatedTabPagingController.addPageRequestListener((pageKey) {
+      _fetchMovieItemsPage(
+          pageKey: pageKey,
+          movieItemType: MovieItemType.topRated,
+          pagingController: _topRatedTabPagingController);
     });
   }
 
-  final MovieRepository movieRepository;
-
-  void _fetchNowPlayingMoviesPage({required int pageKey}) async {
-    var result = await movieRepository.getNowPlayingMovies(pageKey);
+  void _fetchMovieItemsPage(
+      {required int pageKey,
+      required MovieItemType movieItemType,
+      required PagingController pagingController}) async {
+    log("fetch $movieItemType");
+    var result = await movieRepository.getMovieItems(pageKey, movieItemType);
     result.fold(
       (l) {
-        _pagingController.error = l;
+        pagingController.error = l;
       },
       (r) {
         var newItems = r.results
@@ -31,11 +50,11 @@ class HomePageViewModel extends ChangeNotifier {
         final isLastPage = r.totalPages == pageKey;
 
         if (isLastPage) {
-          _pagingController.appendLastPage(
+          pagingController.appendLastPage(
             newItems,
           );
         } else {
-          _pagingController.appendPage(newItems, pageKey + 1);
+          pagingController.appendPage(newItems, pageKey + 1);
         }
       },
     );
@@ -47,8 +66,13 @@ class HomePageViewModel extends ChangeNotifier {
   List<MovieItemEntity> _nowPlayingMovies = [];
   List<MovieItemEntity> get nowPlayingMovies => _nowPlayingMovies;
 
-  final PagingController<int, MovieItemEntity> _pagingController =
+  final PagingController<int, MovieItemEntity> _nowPlayingTabPagingController =
       PagingController(firstPageKey: 1);
-  PagingController<int, MovieItemEntity> get pagingController =>
-      _pagingController;
+  PagingController<int, MovieItemEntity> get nowPlayingTabPagingController =>
+      _nowPlayingTabPagingController;
+
+  final PagingController<int, MovieItemEntity> _topRatedTabPagingController =
+      PagingController(firstPageKey: 1);
+  PagingController<int, MovieItemEntity> get topRatedTabPagingController =>
+      _topRatedTabPagingController;
 }

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'movieDetailsModel.g.dart';
 
 @JsonSerializable()
-class MovieDetailModel {
+class MovieDetailsModel {
   @JsonKey(name: "adult")
   final bool adult;
   @JsonKey(name: "backdrop_path")
@@ -55,7 +55,7 @@ class MovieDetailModel {
   @JsonKey(name: "vote_count")
   final int voteCount;
 
-  MovieDetailModel({
+  MovieDetailsModel({
     required this.adult,
     required this.backdropPath,
     required this.belongsToCollection,
@@ -83,10 +83,10 @@ class MovieDetailModel {
     required this.voteCount,
   });
 
-  factory MovieDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$MovieDetailModelFromJson(json);
+  factory MovieDetailsModel.fromJson(Map<String, dynamic> json) =>
+      _$MovieDetailsModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MovieDetailModelToJson(this);
+  Map<String, dynamic> toJson() => _$MovieDetailsModelToJson(this);
 }
 
 @JsonSerializable()

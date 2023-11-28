@@ -19,8 +19,9 @@ class MovieItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: MediaQuery.sizeOf(context).height * .22,
         color: CupertinoColors.systemBackground,
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             Expanded(
@@ -36,7 +37,11 @@ class MovieItemWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(title),
+                      Text(
+                        title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       SizedBox(
                         height: 12,
                       ),

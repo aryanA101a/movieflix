@@ -8,7 +8,9 @@ part of 'movieItemResponse.dart';
 
 MovieItemResponse _$MovieItemResponseFromJson(Map<String, dynamic> json) =>
     MovieItemResponse(
-      dates: Dates.fromJson(json['dates'] as Map<String, dynamic>),
+      dates: json['dates'] == null
+          ? null
+          : Dates.fromJson(json['dates'] as Map<String, dynamic>),
       page: json['page'] as int,
       results: (json['results'] as List<dynamic>)
           .map((e) => MovieItemModel.fromJson(e as Map<String, dynamic>))

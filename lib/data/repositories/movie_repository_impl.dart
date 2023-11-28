@@ -1,4 +1,5 @@
 import 'package:fpdart/src/either.dart';
+import 'package:movieflix/constants.dart';
 import 'package:movieflix/data/data_sources/remote_data_source.dart';
 import 'package:movieflix/data/models/movieItemResponse.dart';
 import 'package:movieflix/domain/entities/movieDetailsEntity.dart';
@@ -16,9 +17,10 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<Exception, MovieItemResponse>> getNowPlayingMovies(int pageKey) async {
+  Future<Either<Exception, MovieItemResponse>> getMovieItems(
+      int pageKey,MovieItemType movieItemType) async {
     try {
-      final result = await movieRemoteDataSource.getNowPlayingMovies(pageKey);
+      final result = await movieRemoteDataSource.getNowPlayingMovies(pageKey,movieItemType);
       return Right(result);
     } on Exception catch (e) {
       return Left(e);
