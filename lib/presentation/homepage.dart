@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movieflix/movie_detail_screen.dart';
-import 'package:movieflix/movie_item_widget.dart';
+import 'package:movieflix/di/locator.dart';
+import 'package:movieflix/domain/repositories/movie_repository.dart';
+import 'package:movieflix/presentation/movie_detail_screen.dart';
+import 'package:movieflix/presentation/movie_item_widget.dart';
+import 'package:movieflix/presentation/now_playing_tab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final FocusNode _searchTextFieldFocusNode = FocusNode();
-  final tabs = [const NowPlayingTab(), const TopRatedTab()];
+  final tabs = [ const NowPlayingTab(), const TopRatedTab()];
+  final MovieRepository movieRepository = locator<MovieRepository>();
 
   handleSearchTextFieldFocus() {
     if (_searchTextFieldFocusNode.hasFocus) {
@@ -117,31 +123,7 @@ class _MovieFlixTopNavigationBarState extends State<MovieFlixTopNavigationBar> {
   }
 }
 
-class NowPlayingTab extends StatelessWidget {
-  const NowPlayingTab({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          MovieItemWidget(
-            imageUrl:
-                "https://image.tmdb.org/t/p/w342/8QtDhh8mnGUEyrJsaeb3kYgDRaA.jpg",
-            title: "title",
-            subtitle: "subtitle",
-            onTap: () {
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => MovieDetailScreen()));
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class TopRatedTab extends StatelessWidget {
   const TopRatedTab({super.key});

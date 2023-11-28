@@ -6,12 +6,12 @@ class MovieItemWidget extends StatelessWidget {
       {super.key,
       required this.imageUrl,
       required this.title,
-      required this.subtitle,
+      required this.description,
       this.onTap});
 
   final String imageUrl;
   final String title;
-  final String subtitle;
+  final String description;
   final void Function()? onTap;
 
   @override
@@ -41,7 +41,7 @@ class MovieItemWidget extends StatelessWidget {
                         height: 12,
                       ),
                       Text(
-                        subtitle,
+                        description,
                         maxLines: 5,
                         style: TextStyle(
                             fontSize: 14,
