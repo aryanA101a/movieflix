@@ -1,6 +1,6 @@
 class TmdbApiUrls {
-  static const nowPlaying =
-      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1";
+  static String nowPlaying(int pageKey) =>
+      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=$pageKey";
   static const topRated =
       "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
   static const movieDetails =

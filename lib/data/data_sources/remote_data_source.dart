@@ -8,7 +8,7 @@ import 'package:movieflix/data/models/movieItemModel.dart';
 import 'package:movieflix/data/models/movieItemResponse.dart';
 
 abstract class MovieRemoteDataSource {
-  Future<List<MovieItemModel>> getNowPlayingMovies();
+  Future<MovieItemResponse> getNowPlayingMovies(int pageKey);
   Future<List<MovieItemModel>> getTopRatedMovies();
   // Future<MovieDetailsModel> getMovieDetails();
 }
@@ -23,15 +23,15 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
 //   }
 
   @override
-  Future<List<MovieItemModel>> getNowPlayingMovies() async {
+  Future<MovieItemResponse> getNowPlayingMovies(int pageKey) async {
     var headers = {
       "Authorization": "Bearer ${dotenv.get("TMDB_ACCESS_TOKEN")}",
       "accept": "application/json",
     };
     final response =
-        await client.get(Uri.parse(TmdbApiUrls.nowPlaying), headers: headers);
+        await client.get(Uri.parse(TmdbApiUrls.nowPlaying(pageKey)), headers: headers);
     if (response.statusCode == 200) {
-      return MovieItemResponse.fromJson(json.decode(response.body)).results;
+      return MovieItemResponse.fromJson(json.decode(response.body));
     } else {
       log(response.body.toString());
       throw Exception("Something went wrong");
