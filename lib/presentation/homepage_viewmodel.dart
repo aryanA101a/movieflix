@@ -32,7 +32,6 @@ class HomePageViewModel extends ChangeNotifier {
       {required int pageKey,
       required MovieItemType movieItemType,
       required PagingController pagingController}) async {
-    log("fetch $movieItemType");
     var result = await movieRepository.getMovieItems(pageKey, movieItemType);
     result.fold(
       (l) {
@@ -60,8 +59,30 @@ class HomePageViewModel extends ChangeNotifier {
     );
   }
 
-  bool _loading = false;
-  bool get loading => _loading;
+  List<MovieItemEntity> searchLocally(String searchString) {
+    List<MovieItemEntity> result = [];
+    if (_nowPlayingTabPagingController.itemList != null) {
+      result.addAll(_nowPlayingTabPagingController.itemList!.where((element) =>
+          element.title.toLowerCase().contains(searchString.toLowerCase())));
+    }
+    if (_topRatedTabPagingController.itemList != null) {
+      result.addAll(_topRatedTabPagingController.itemList!
+          .where((element) => element.title.toLowerCase().contains(searchString.toLowerCase())));
+    }
+    return result;
+  }
+
+  void executeSearch(String searchString) {
+    var results = searchLocally(searchString);
+    _searchResults = results;
+    if(_showSearchResults!=true){
+      _showSearchResults = true;
+    }
+    notifyListeners();
+  }
+
+  bool _showSearchResults = false;
+  bool get showSearchResults => _showSearchResults;
 
   List<MovieItemEntity> _nowPlayingMovies = [];
   List<MovieItemEntity> get nowPlayingMovies => _nowPlayingMovies;
@@ -75,4 +96,13 @@ class HomePageViewModel extends ChangeNotifier {
       PagingController(firstPageKey: 1);
   PagingController<int, MovieItemEntity> get topRatedTabPagingController =>
       _topRatedTabPagingController;
+
+  List<MovieItemEntity> _searchResults = [];
+  List<MovieItemEntity> get searchResults => _searchResults;
+
+  void cancelSearch() {
+      _searchResults = [];
+      _showSearchResults = false;
+      notifyListeners();
+  }
 }

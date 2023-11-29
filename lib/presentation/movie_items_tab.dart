@@ -32,22 +32,18 @@ class MovieItemsTab extends StatelessWidget {
         pagingController: pagingController,
         builderDelegate: PagedChildBuilderDelegate(
           itemBuilder: (context, item, index) {
-            return Column(
-              children: [
-                MovieItemWidget(
-                  imageUrl: item.poster,
-                  title: item.title,
-                  description: item.description,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => MovieDetailScreen(
-                              item),
-                        ));
-                  },
-                ),
-              ],
+            return MovieItemWidget(
+              imageUrl: item.poster,
+              title: item.title,
+              description: item.description,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => MovieDetailScreen(
+                          item),
+                    ));
+              },
             );
           },
         ),
