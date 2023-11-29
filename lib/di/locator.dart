@@ -4,10 +4,15 @@ import 'package:movieflix/data/data_sources/remote_data_source.dart';
 import 'package:movieflix/data/repositories/movie_repository_impl.dart';
 import 'package:movieflix/domain/repositories/movie_repository.dart';
 import 'package:movieflix/presentation/homepage_viewmodel.dart';
+import 'package:movieflix/presentation/movie_detail_page_viewmodel.dart';
 
 final locator = GetIt.instance;
 
 void setupLocator() {
+  //moviedetailpage viewmodel
+  locator.registerLazySingleton<MovieDetailPageViewModel>(
+      () => MovieDetailPageViewModel(locator()));
+
   //homepage viewmodel
   locator.registerLazySingleton<HomePageViewModel>(
       () => HomePageViewModel(locator()));

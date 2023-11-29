@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movieflix/di/locator.dart';
 import 'package:movieflix/presentation/homepage.dart';
 import 'package:movieflix/presentation/homepage_viewmodel.dart';
+import 'package:movieflix/presentation/movie_detail_page_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -17,12 +18,18 @@ class MovieFlix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => locator<HomePageViewModel>(),
-      child: CupertinoApp(
-        title: 'MovieFlix',
-        home: HomePage(),
-      ),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => locator<HomePageViewModel>(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => locator<MovieDetailPageViewModel>(),
+          ),
+        ],
+        child: const CupertinoApp(
+          title: 'MovieFlix',
+          home: HomePage(),
+        ));
   }
 }

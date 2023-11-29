@@ -11,9 +11,13 @@ class MovieRepositoryImpl extends MovieRepository {
   MovieRepositoryImpl({required this.movieRemoteDataSource});
 
   @override
-  Future<Either<Exception, MovieDetailsEntity>> getMovieDetails(int id) {
-    // TODO: implement getMovieDetails
-    throw UnimplementedError();
+  Future<Either<Exception, MovieDetailsEntity>> getMovieDetails(int id)async{
+    try {
+      final result = await movieRemoteDataSource.getMovieDetails(id);
+      return Right(result.toEntity());
+    } on Exception catch (e) {
+      return Left(e);
+    }
   }
 
   @override
@@ -27,9 +31,4 @@ class MovieRepositoryImpl extends MovieRepository {
     }
   }
 
-  @override
-  Future<Either<Exception, List<MovieItemEntity>>> getTopRatedMovies() {
-    // TODO: implement getTopRatedMovies
-    throw UnimplementedError();
-  }
 }

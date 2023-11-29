@@ -58,6 +58,7 @@ class MovieItemModel {
   Map<String, dynamic> toJson() => _$MovieItemModelToJson(this);
 
   MovieItemEntity toEntity() => MovieItemEntity(
+    id:id,
       poster: TmdbApiUrls.posterUrl(posterPath!),
       title: title??originalTitle??"",
       description: overview!);
